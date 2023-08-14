@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Request, Response, NextFunction, Express } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
@@ -14,10 +14,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger('dev'));
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+useMiddleware(app)
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -37,5 +34,12 @@ app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
   res.status(err.status || 500);
   res.render('error');
 });
+
+function useMiddleware(app: Express) {
+  app.use(logger('dev'));
+  app.use(express.urlencoded({ extended: false }));
+  app.use(cookieParser());
+  app.use(express.static(path.join(__dirname, 'public')));
+}
 
 export default app;
