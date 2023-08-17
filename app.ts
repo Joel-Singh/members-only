@@ -7,6 +7,7 @@ import createError, { HttpError } from 'http-errors';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
+import connectToRealDb from './DbConnectFunctions/connectToRealDb';
 
 const app = express();
 
@@ -41,5 +42,7 @@ function useMiddleware(app: Express) {
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, 'public')));
 }
+
+connectToRealDb(process.env.MONGO_URI!);
 
 export default app;
