@@ -1,24 +1,24 @@
-import 'dotenv/config'
-import express, { Request, Response, NextFunction, Express } from 'express';
-import path from 'path';
-import cookieParser from 'cookie-parser';
-import logger from 'morgan';
-import createError, { HttpError } from 'http-errors';
+import "dotenv/config";
+import express, { Request, Response, NextFunction, Express } from "express";
+import path from "path";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
+import createError, { HttpError } from "http-errors";
 
-import indexRouter from './routes/index';
-import usersRouter from './routes/users';
-import connectToRealDb from './DbConnectFunctions/connectToRealDb';
+import indexRouter from "./routes/index";
+import usersRouter from "./routes/users";
+import connectToRealDb from "./DbConnectFunctions/connectToRealDb";
 
 const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
-useMiddleware(app)
+useMiddleware(app);
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -29,18 +29,18 @@ app.use((req, res, next) => {
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render("error");
 });
 
 function useMiddleware(app: Express) {
-  app.use(logger('dev'));
+  app.use(logger("dev"));
   app.use(express.urlencoded({ extended: false }));
   app.use(cookieParser());
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(__dirname, "public")));
 }
 
 connectToRealDb(process.env.MONGO_URI!);

@@ -5,7 +5,8 @@
   "scripts": {
     "start": "ts-node ./bin/www.ts",
     "devstart": "nodemon",
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests",
+    "formatAll": "prettier --write ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
