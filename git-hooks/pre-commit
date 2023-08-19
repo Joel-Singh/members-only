@@ -8,11 +8,8 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-git diff --name-only --cached --diff-filter=d | xargs prettier --check
-if [ $? -ne 0 ]; then
-    echo "Files not formatted!"
-    exit 1
-fi
+npm run formatAll
+git add .
 
 npm test -- --onlyChanged --forceExit
 if [ $? -ne 0 ]; then
