@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import indexRouter from "../routes";
 import usersRouter from "../routes/users";
-import signUpRouter from "../routes/sign-up";
+import signUpRouter from "../routes/signUp";
 
 interface Options {
   middleware: boolean;
