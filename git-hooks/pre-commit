@@ -18,7 +18,18 @@ if [ $? -ne 0 ]; then
 fi
 
 if (( stash_count_after > stash_count_before )); then
-    git stash pop -q
+    git stash apply -q
+    if [ $? -ne 0 ]; then
+        echo "conflict applying stash, favoring formatted changes"
+        # There's a conflict. Favor the current branch changes (after formatting).
+        git checkout --ours -- .
+        git add .
+
+        # Continue with the stash application to finalize it
+        git stash drop -q
+    else
+        git stash drop -q
+    fi
 fi
 
 exit 0
